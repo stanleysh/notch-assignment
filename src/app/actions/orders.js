@@ -12,7 +12,7 @@ import {
 export const loadData = () => async (dispatch) => {
   try {
     // Normally would call API, but Heroku is having issues making calls to http links
-    const response = await axios.post('http://api.interview.staging.foodieorders.com/v3/orders/search', {});
+    const response = await axios.post('api.interview.staging.foodieorders.com/v3/orders/search', {});
 
     // Using import data to make it workable on heroku
     // const importedData = data;
