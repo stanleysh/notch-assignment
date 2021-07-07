@@ -6,9 +6,15 @@ import {
   CLEAR_FILTER,
 } from './types';
 
+import data from '../../../public/data.json';
+
 export const loadData = () => async (dispatch) => {
   try {
-    const rawData = await axios.post('http://api.interview.staging.foodieorders.com/v3/orders/search', {});
+    // Normally would call API, but Heroku is having issues making calls to http links
+    // const rawData = await axios.post('http://api.interview.staging.foodieorders.com/v3/orders/search', {});
+
+    // Using import data to make it workable on heroku
+    const rawData = data;
     if (rawData.data) {
       dispatch({
         type: GET_DATA,
