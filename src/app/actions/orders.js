@@ -6,7 +6,7 @@ import {
   CLEAR_FILTER,
 } from './types';
 
-import data from '../../../public/data.json';
+import data from '../../data.json';
 
 export const loadData = () => async (dispatch) => {
   try {
@@ -14,11 +14,12 @@ export const loadData = () => async (dispatch) => {
     // const rawData = await axios.post('http://api.interview.staging.foodieorders.com/v3/orders/search', {});
 
     // Using import data to make it workable on heroku
-    const rawData = data;
-    if (rawData.data) {
+    const importedData = data;
+    if (importedData) {
       dispatch({
         type: GET_DATA,
-        payload: rawData.data,
+        // payload: rawData.data,
+        payload: importedData,
       })
     }
   } catch (err) {

@@ -24,7 +24,7 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('');
   const [displayedData, setDisplayedData] = useState([]);
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, filteredData.length - page * rowsPerPage);
+  let emptyRows
 
   // Whenever filtered data comes in, set the display data, reset sort and page
   useEffect(() => {
@@ -32,6 +32,8 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
     setSortColumn('');
     setSortDirection('asc');
     setPage(0);
+    console.log(filteredData);
+    // emptyrrowsPerPage - Math.min(rowsPerPage, filteredData.length - page * rowsPerPage)
   }, [filteredData])
 
   useEffect(() => {
