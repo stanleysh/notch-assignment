@@ -1,8 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from './reducers';
+import thunk from 'redux-thunk';
 
-export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-  },
-});
+// Empty objety for the initial state of store. All initial states will be found in reducers.
+const initialState = {};
+const middleware = [thunk]
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
+
+export default store;

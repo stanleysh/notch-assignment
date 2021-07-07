@@ -1,0 +1,16 @@
+// Import individual scss files
+@import './OrdersFilter.scss';
+@import './OrdersTable.scss';
+
+
+.header {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  background-color: #391279;
+
+  img {
+    width: 100px;
+    margin: auto;
+  }
+}

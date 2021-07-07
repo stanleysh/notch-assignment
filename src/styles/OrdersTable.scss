@@ -1,0 +1,57 @@
+@import './variables.scss';
+
+.orders-container {
+  padding: 0 100px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+
+  .header-cell {
+    @media screen and (max-width: $size-md) {
+      font-size: 12px;
+    }
+  }
+
+  .sort-button {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+      margin-left: 4px;
+    }
+  }
+
+  .body-cell {
+    @media screen and (max-width: $size-md) {
+      padding: 8px;
+    }
+  }
+
+  .vendor-cell {
+    max-width: 300px;
+
+    .vendor-stickers {
+      display: inline-block;
+
+      @media screen and (max-width: $size-md) {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .sm-shift {
+    @media screen and (max-width: $size-md) {
+      padding-left: 16px;
+    }
+  }
+
+  .pagination-arrows {
+    flex-shrink: 0;
+    margin-left: 32px;
+  }
+
+  @media screen and (max-width: $size-md) {
+    padding: 0 10px;
+  }
+}
