@@ -19,12 +19,17 @@ import OrdersPagination from './OrdersPagination';
 import { loadData } from '../app/actions/orders';
 
 const OrdersTable = ({ dispatchLoadData, filteredData }) => {
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [page, setPage] = useState(0);
+  const [displayedData, setDisplayedData] = useState([]);
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('');
-  const [displayedData, setDisplayedData] = useState([]);
-  let emptyRows
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, filteredData.length - page * rowsPerPage)
+
+  // Makes api call to get data
+  useEffect(() => {
+    dispatchLoadData();
+  }, [dispatchLoadData])
 
   // Whenever filtered data comes in, set the display data, reset sort and page
   useEffect(() => {
@@ -32,14 +37,7 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
     setSortColumn('');
     setSortDirection('asc');
     setPage(0);
-    console.log(filteredData);
-    // emptyrrowsPerPage - Math.min(rowsPerPage, filteredData.length - page * rowsPerPage)
   }, [filteredData])
-
-  useEffect(() => {
-    // Makes api call to get data
-    dispatchLoadData();
-  }, [dispatchLoadData])
 
   // Handle pagination functions
   const handleChangePage = (event, newPage) => {
@@ -95,28 +93,27 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
   // Function to handle sorting
   const handleSortClick = (column) => {
     // If any sort happens, bring to the first page of pagination
+    let tempData;
     const isAsc = sortColumn === column && sortDirection === 'asc';
     setSortDirection(isAsc ? 'desc' : 'asc');
     setSortColumn(column);
     if (column === 'total') {
       // Have to use isAsc since the setSortDirection is not async and will not reflect accurately
+      tempData = filteredData.sort((a, b) => {return a[column] - b[column]});
       if (!isAsc) {
-        return setDisplayedData(filteredData.sort((a, b) => {return a[column] - b[column]}));
+        return setDisplayedData(tempData);
       } 
-      return setDisplayedData(filteredData.sort((a, b) => {return b[column] - a[column]}));
+      return setDisplayedData(tempData.reverse());
     } else {
-      if (!isAsc) {
-        return setDisplayedData(filteredData.sort((a, b) => {
-          if (a[column] < b[column]) {return -1}
-          if (a[column] > b[column]) {return 1}
-          return 0;
-        }))
-      } 
-      return setDisplayedData(filteredData.sort((a, b) => {
-        if (a[column] < b[column]) {return 1}
-        if (a[column] > b[column]) {return -1}
+      tempData = filteredData.sort((a, b) => {
+        if (a[column] < b[column]) {return -1}
+        if (a[column] > b[column]) {return 1}
         return 0;
-      }))
+      })
+      if (!isAsc) {
+        return setDisplayedData(tempData);
+      } 
+      return setDisplayedData(tempData.reverse());
     }
   }
 
@@ -165,7 +162,6 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
               </TableRow>
             )} 
           </TableBody>}
-          {displayedData && 
           <TableFooter>
             <TableRow>
               <TablePagination
@@ -182,7 +178,7 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
                 ActionsComponent={OrdersPagination}
               />
             </TableRow>
-          </TableFooter> }
+          </TableFooter>
         </Table> 
       </TableContainer>
     </div>

@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './reducers';
 import thunk from 'redux-thunk';
 
-// Empty objety for the initial state of store. All initial states will be found in reducers.
+// Empty objet for the initial state of store. All initial states will be found in reducers.
 const initialState = {};
 const middleware = [thunk]
 
