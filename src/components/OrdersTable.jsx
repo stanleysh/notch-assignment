@@ -10,7 +10,6 @@ import {
   TableRow,
   TableFooter,
   Paper,
-  CircularProgress,
 } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
@@ -121,8 +120,6 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
 
   return(
     <div className='orders-container'>
-      {/* Load a spinner if the API is taking a second */}
-      {!displayedData ? <CircularProgress /> : 
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -186,7 +183,6 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
           </TableFooter> }
         </Table> 
       </TableContainer>
-      }
     </div>
   )
 }
