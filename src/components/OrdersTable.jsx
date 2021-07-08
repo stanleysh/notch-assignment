@@ -10,6 +10,7 @@ import {
   TableRow,
   TableFooter,
   Paper,
+  CircularProgress,
 } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
@@ -119,68 +120,70 @@ const OrdersTable = ({ dispatchLoadData, filteredData }) => {
 
   return(
     <div className='orders-container'>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell className='header-cell status-cell'>
-                <div className='sort-button' onClick={() => handleSortClick('orderBuyerStatus')}>
-                  STATUS 
-                  {sortColumn !== 'orderBuyerStatus' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
-                </div>
-              </TableCell>
-              <TableCell className='header-cell'>
-                <div className='sort-button' onClick={() => handleSortClick('deliveryDay')}>
-                  DELIVERY DATE
-                  {sortColumn !== 'deliveryDay' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
-                </div>
-              </TableCell>
-              <TableCell className='header-cell'>
-                <div className='sort-button' onClick={() => handleSortClick('vendorName')}>
-                  SUPPLIER 
-                  {sortColumn !== 'vendorName' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
-                </div>
-              </TableCell>
-              <TableCell className='header-cell'>
-                <div className='sort-button' onClick={() => handleSortClick('total')}>
-                  TOTAL 
-                  {sortColumn !== 'total' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          {displayedData && 
-          <TableBody>
-            {(rowsPerPage > 0
-              ? displayedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order => (OrderRow(order))))
-              : displayedData.map((order => (OrderRow(order))))
-            )}
-            {/* Create empty rows so table stays the same size */}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 59 * emptyRows }}>
-                <TableCell colSpan={6} />
+      {!filteredData.length > 0 ? <CircularProgress className='loading' /> : 
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className='header-cell status-cell'>
+                  <div className='sort-button' onClick={() => handleSortClick('orderBuyerStatus')}>
+                    STATUS 
+                    {sortColumn !== 'orderBuyerStatus' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
+                  </div>
+                </TableCell>
+                <TableCell className='header-cell'>
+                  <div className='sort-button' onClick={() => handleSortClick('deliveryDay')}>
+                    DELIVERY DATE
+                    {sortColumn !== 'deliveryDay' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
+                  </div>
+                </TableCell>
+                <TableCell className='header-cell'>
+                  <div className='sort-button' onClick={() => handleSortClick('vendorName')}>
+                    SUPPLIER 
+                    {sortColumn !== 'vendorName' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
+                  </div>
+                </TableCell>
+                <TableCell className='header-cell'>
+                  <div className='sort-button' onClick={() => handleSortClick('total')}>
+                    TOTAL 
+                    {sortColumn !== 'total' ? <SortIcon /> : sortDirection === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
+                  </div>
+                </TableCell>
               </TableRow>
-            )} 
-          </TableBody>}
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                count={displayedData.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: { 'aria-label': 'rows per page' },
-                  native: true,
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={OrdersPagination}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table> 
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? displayedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order => (OrderRow(order))))
+                : displayedData.map((order => (OrderRow(order))))
+              )}
+              {/* Create empty rows so table stays the same size */}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 59 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )} 
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                  count={displayedData.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: { 'aria-label': 'rows per page' },
+                    native: true,
+                  }}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  ActionsComponent={OrdersPagination}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table> 
+        </TableContainer>
+      }
+      
     </div>
   )
 }

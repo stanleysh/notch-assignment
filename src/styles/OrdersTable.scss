@@ -5,6 +5,11 @@
   margin-top: 20px;
   margin-bottom: 40px;
 
+  .loading {
+    display: block;
+    margin: auto;
+  }
+
   .header-cell {
     @media screen and (max-width: $size-md) {
       font-size: 12px;
